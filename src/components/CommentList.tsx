@@ -91,6 +91,9 @@ export default function CommentList({
   };
 
   const handleDelete = async () => {
+    const ok = window.confirm('Are you sure to delete the selected comments?');
+    if (!ok) return;
+    
     for (const id of selectedIds) {
       await api.delete(`/comment/${id}`);
     }
