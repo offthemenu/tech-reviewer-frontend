@@ -23,7 +23,6 @@ export default function PDFViewer({ filename, onPageChange }: PDFViewerProps) {
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   return (
-    <Paper elevation={4} sx={{ p: 2 }}>
       <Box sx={{ width: '100%', aspectRatio: '16 / 9', overflow: 'hidden', borderRadius: 1 }}>
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
           <Viewer
@@ -36,6 +35,5 @@ export default function PDFViewer({ filename, onPageChange }: PDFViewerProps) {
           />
         </Worker>
       </Box>
-    </Paper>
   );
 }

@@ -39,7 +39,6 @@ export default function CommentForm({ context, onSuccess }: CommentFormProps) {
   };
 
   return (
-    <Paper elevation={4} sx={{ p: 3 }}>
       <Stack spacing={2}>
         <TextField
           label="UI Component"
@@ -70,6 +69,5 @@ export default function CommentForm({ context, onSuccess }: CommentFormProps) {
           Add Comment
         </Button>
       </Stack>
-    </Paper>
   );
 }
