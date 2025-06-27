@@ -33,7 +33,7 @@ export default function ReviewPage() {
   if (!data) return <div>Loading...</div>;
 
   return (
-    <Box sx={{ width: '100%', maxWidth: '2100px', mx: 'auto', p: 4, display: 'flex', flexDirection: 'column', gap: 2, }}>
+    <Box sx={{ width: '100%', maxWidth: '1920px', mx: 'auto', p: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
       {/* Title */}
       <Typography variant="h2" fontWeight={600} mb={3}>
         wA FE Wireframe  Technical Reviewer
