@@ -49,7 +49,6 @@ export default function CommentList({
       .catch((err) => console.error("Failed to copy markdown", err));
   };
 
-
   // const handleExportPdf = () => {
   //   const element = document.getElementById('comment-table');
   //   if (!element) return;
@@ -65,7 +64,6 @@ export default function CommentList({
   //     .from(element)
   //     .save();
   // };
-
 
   const fetchComments = () => {
     if (!project || !device) return;
@@ -91,9 +89,9 @@ export default function CommentList({
   };
 
   const handleDelete = async () => {
-    const ok = window.confirm('Are you sure to delete the selected comments?');
+    const ok = window.confirm('Are you sure to delete the selected comment(s)?');
     if (!ok) return;
-    
+
     for (const id of selectedIds) {
       await api.delete(`/comment/${id}`);
     }
@@ -102,7 +100,7 @@ export default function CommentList({
   };
 
   return (
-    <Paper id="comment-table" sx={{ mt: 6, p: 3, overflowX: 'auto' }} elevation={2}>
+    <Paper id="comment-table" elevation={4} sx={{ mt: 6, p: 3, overflowX: 'auto' }}>
       <Typography variant="h6" fontWeight={600} mb={2}>
         Technical Review Comments
       </Typography>
@@ -144,18 +142,18 @@ export default function CommentList({
             variant="contained"
             color="error"
             onClick={handleDelete}
-            sx={{ ml: 'auto' }}
+            sx={{ ml: 'auto', minWidth: 120 }}
           >
             Delete
           </Button>
         </Box>
       )}
 
-      <Box mt={4} display="flex" justifyContent="flex-end " gap={2}>
-        <Button variant="outlined" onClick={handleCopyMarkdown}>
+      <Box mt={4} display="flex" justifyContent="flex-end" gap={2}>
+        <Button variant="outlined" onClick={handleCopyMarkdown} sx={{ minWidth: 160 }}>
           Copy as Markdown
         </Button>
-        {/* <Button variant="outlined" onClick={handleExportPdf}>
+        {/* <Button variant="outlined" onClick={handleExportPdf} sx={{ minWidth: 160 }}>
           Export as PDF
         </Button> */}
       </Box>

@@ -52,34 +52,34 @@ export default function Dropdowns({
       : [];
 
   return (
-    <Grid container spacing={2} mt={2} alignItems="center" justifyContent="space-between">
-      {/* Project */}
+    <Grid container spacing={3} mt={2} alignItems="center">
+      {/* Project Dropdown */}
       <Grid>
-        <FormControl
-          size="small"
-          sx={{ minWidth: 150, maxWidth: 150 }}
-        >
-          <InputLabel id="project-label" shrink>Project</InputLabel>
+        <FormControl size="small" sx={{ minWidth: 150, maxWidth: 150 }}>
+          <InputLabel id="project-label">Project</InputLabel>
           <Select
             labelId="project-label"
             id="project-select"
             value={selectedProject}
             label="Project"
+            sx={{
+              fontSize: "0.85rem",
+              lineHeight: "1.5", // Ensures text isn't vertically compressed
+              ".MuiSelect-select": {
+                paddingTop: "8px",
+                paddingBottom: "8px",
+                alignItems: "center",
+              }
+            }}
             onChange={(e: SelectChangeEvent) => {
               onProjectChange(e.target.value);
               onDeviceChange("");
               onPageChange("", "");
             }}
             displayEmpty
-            renderValue={(value) =>
-              value === "" ? <em>Select Project</em> : value
-            }
           >
-            {/* <MenuItem value="">
-              <em>Select Project</em>
-            </MenuItem> */}
             {projectOptions.map((p) => (
-              <MenuItem key={p} value={p}>
+              <MenuItem key={p} value={p} sx={{ fontSize: "0.85rem" }}>
                 {p}
               </MenuItem>
             ))}
@@ -87,33 +87,36 @@ export default function Dropdowns({
         </FormControl>
       </Grid>
 
-      {/* Device */}
+      {/* Device Dropdown */}
       <Grid>
         <FormControl
           size="small"
           sx={{ minWidth: 150, maxWidth: 150 }}
           disabled={!selectedProject}
         >
-          <InputLabel id="device-label" shrink>Device</InputLabel>
+          <InputLabel id="device-label">Device</InputLabel>
           <Select
             labelId="device-label"
             id="device-select"
             value={selectedDevice}
             label="Device"
+            sx={{
+              fontSize: "0.85rem",
+              lineHeight: "1.5", // Ensures text isn't vertically compressed
+              ".MuiSelect-select": {
+                paddingTop: "8px",
+                paddingBottom: "8px",
+                alignItems: "center",
+              }
+            }}
             onChange={(e: SelectChangeEvent) => {
               onDeviceChange(e.target.value);
               onPageChange("", "");
             }}
             displayEmpty
-            renderValue={(value) =>
-              value === "" ? <em>Select Device</em> : value
-            }
           >
-            {/* <MenuItem value="">
-              <em>Select Device</em>
-            </MenuItem> */}
             {deviceOptions.map((d) => (
-              <MenuItem key={d} value={d}>
+              <MenuItem key={d} value={d} sx={{ fontSize: "0.85rem" }}>
                 {d}
               </MenuItem>
             ))}
@@ -121,34 +124,37 @@ export default function Dropdowns({
         </FormControl>
       </Grid>
 
-      {/* Page */}
+      {/* Page Dropdown */}
       <Grid>
         <FormControl
           size="small"
           sx={{ minWidth: 150, maxWidth: 150 }}
           disabled={!selectedProject || !selectedDevice}
         >
-          <InputLabel id="page-label" shrink>Page</InputLabel>
+          <InputLabel id="page-label">Page</InputLabel>
           <Select
             labelId="page-label"
             id="page-select"
             value={selectedPage}
             label="Page"
+            sx={{
+              fontSize: "0.85rem",
+              lineHeight: "1.5", // Ensures text isn't vertically compressed
+              ".MuiSelect-select": {
+                paddingTop: "8px",
+                paddingBottom: "8px",
+                alignItems: "center",
+              }
+            }}
             onChange={(e: SelectChangeEvent) => {
               const name = e.target.value;
               const entry = pageOptions.find((p) => p.name === name);
               onPageChange(name, entry?.path ?? "");
             }}
             displayEmpty
-            renderValue={(value) =>
-              value === "" ? <em>Select Page</em> : value
-            }
           >
-            {/* <MenuItem value="">
-              <em>Select Page</em>
-            </MenuItem> */}
             {pageOptions.map((p) => (
-              <MenuItem key={p.path} value={p.name}>
+              <MenuItem key={p.path} value={p.name} sx={{ fontSize: "0.85rem" }}>
                 {p.name}
               </MenuItem>
             ))}

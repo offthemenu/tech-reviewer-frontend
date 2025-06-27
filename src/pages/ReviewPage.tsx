@@ -1,5 +1,4 @@
-import { Stack, Box, Typography, Paper } from "@mui/material";
-import Grid from "@mui/material/Grid"
+import { Stack, Box, Typography, Paper, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import PDFUpload from "../components/PDFUpload";
@@ -27,33 +26,46 @@ export default function ReviewPage() {
   const triggerRefresh = () => setRefreshFlag((prev) => !prev);
 
   useEffect(() => {
-    api.get("/wireframe").then((res: { data: WireframeDropdownData }) => setData(res.data)).catch(console.error);
+    api
+      .get("/wireframe")
+      .then((res: { data: WireframeDropdownData }) => setData(res.data))
+      .catch(console.error);
   }, []);
 
   if (!data) return <div>Loading...</div>;
 
   return (
-    <Box sx={{ width: '100%', maxWidth: '1920px', mx: 'auto', p: 4, display: 'flex', flexDirection: 'column', gap: 2 }}>
-      {/* Title */}
-      <Typography variant="h2" fontWeight={600} mb={3}>
-        wA FE Wireframe  Technical Reviewer
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "1920px",
+        mx: "auto",
+        p: 4,
+        display: "flex",
+        flexDirection: "column",
+        gap: 3,
+      }}
+    >
+      {/* Page Title */}
+      <Typography variant="h4" fontWeight={600} mb={2}>
+        wA FE Wireframe Technical Reviewer
       </Typography>
 
-      {/* PDF Uploader */}
-      <Stack spacing={5} mb={3}>
-          <PDFUpload onUpload={(filename) => setUploadedPdf(filename)} />
+      {/* PDF Upload Box */}
+      <Stack spacing={3}>
+        <PDFUpload onUpload={(filename) => setUploadedPdf(filename)} />
       </Stack>
 
-      <Paper elevation={4} sx={{ p: 2 }}>
-        <Grid container spacing={4} alignItems="flex-start">
-          {/* PDF Components */}
-          <Grid size={{ xs: 15, md: 8.5 }}>
-            <Stack spacing={2} mb={3}>
-              <PDFViewer filename={uploadedPdf} />
-            </Stack>
+      {/* Main Content Block */}
+      <Paper elevation={3} sx={{ p: 3 }}>
+        <Grid container spacing={3} alignItems="flex-start">
+          {/* Left Column: PDF Viewer */}
+          <Grid size={ {xs:12, md:8.5} }>
+            <PDFViewer filename={uploadedPdf} />
           </Grid>
 
-          <Grid size={{ xs: 15, md: 3.5 }}>
+          {/* Right Column: Dropdowns + Comment Form */}
+          <Grid size={ {xs:12, md:3.5 }}>
             <Stack spacing={3}>
               <Dropdowns
                 selectedProject={project}
@@ -75,7 +87,6 @@ export default function ReviewPage() {
                   setPagePath(path);
                 }}
               />
-
               {project && device && pageName && uploadedPdf && (
                 <CommentForm
                   context={{
@@ -93,7 +104,12 @@ export default function ReviewPage() {
         </Grid>
       </Paper>
 
-      <CommentList project={project} device={device} refreshFlag={refreshFlag} />
+      {/* Comment Table */}
+      <CommentList
+        project={project}
+        device={device}
+        refreshFlag={refreshFlag}
+      />
     </Box>
   );
 }

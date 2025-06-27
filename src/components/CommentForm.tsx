@@ -1,4 +1,4 @@
-import { TextField, Stack, Button } from '@mui/material';
+import { TextField, Stack, Button, Paper } from '@mui/material';
 import { useState } from 'react';
 import api from '../services/api';
 
@@ -19,14 +19,13 @@ export default function CommentForm({ context, onSuccess }: CommentFormProps) {
   const [text, setText] = useState('');
 
   const submit = async () => {
-    console.log("👋 submit called", { project, device, pageName, pagePath, uiComponent, text, filename });
     if (!text.trim()) return;
     try {
       await api.post('/add_comment', {
         project,
         device,
         page_name: pageName,
-        page_path: pagePath,       
+        page_path: pagePath,
         ui_component: uiComponent.toUpperCase(),
         comment: text,
         filename,
@@ -40,35 +39,37 @@ export default function CommentForm({ context, onSuccess }: CommentFormProps) {
   };
 
   return (
-    <Stack spacing={2} sx={{ mt: 1 }}>
-      <TextField
-        label="UI Component"
-        placeholder="e.g. 1 - BUTTON, 2 - TEXT"
-        value={uiComponent}
-        onChange={(e) => setUiComponent(e.target.value)}
-        size="small"
-        fullWidth
-      />
+    <Paper elevation={4} sx={{ p: 3 }}>
+      <Stack spacing={2}>
+        <TextField
+          label="UI Component"
+          placeholder="e.g. 1 - BUTTON, 2 - TEXT"
+          value={uiComponent}
+          onChange={(e) => setUiComponent(e.target.value)}
+          size="small"
+          fullWidth
+        />
 
-      <TextField
-        label="Review Comment"
-        placeholder="Add technical review comment for this component"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        multiline
-        minRows={4}
-        fullWidth
-      />
+        <TextField
+          label="Review Comment"
+          placeholder="Add technical review comment for this component"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          multiline
+          minRows={4}
+          fullWidth
+        />
 
-      <Button
-        variant="contained"
-        color="primary"
-        disabled={!text.trim() || !uiComponent.trim()}
-        onClick={submit}
-        fullWidth
-      >
-        Add Comment
-      </Button>
-    </Stack>
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={!text.trim() || !uiComponent.trim()}
+          onClick={submit}
+          fullWidth
+        >
+          Add Comment
+        </Button>
+      </Stack>
+    </Paper>
   );
 }
