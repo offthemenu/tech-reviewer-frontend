@@ -43,7 +43,7 @@ export default function CommentForm({ context, onSuccess }: CommentFormProps) {
     <Stack spacing={2} sx={{ mt: 1 }}>
       <TextField
         label="UI Component"
-        placeholder="e.g. BUTTON, TEXT"
+        placeholder="e.g. 1 - BUTTON, 2 - TEXT"
         value={uiComponent}
         onChange={(e) => setUiComponent(e.target.value)}
         size="small"
