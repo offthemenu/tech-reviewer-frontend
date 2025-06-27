@@ -1,4 +1,4 @@
-import { Grid, FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
+import { Grid, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 type WireframeDropdownData = {
     projects: string[];

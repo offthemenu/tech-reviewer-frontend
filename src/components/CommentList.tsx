@@ -50,21 +50,21 @@ export default function CommentList({
   };
 
 
-  const handleExportPdf = () => {
-    const element = document.getElementById('comment-table');
-    if (!element) return;
+  // const handleExportPdf = () => {
+  //   const element = document.getElementById('comment-table');
+  //   if (!element) return;
 
-    html2pdf()
-      .set({
-        margin: 0.5,
-        filename: `tech_review_comments_${project}_${device}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' },
-      })
-      .from(element)
-      .save();
-  };
+  //   html2pdf()
+  //     .set({
+  //       margin: 0.5,
+  //       filename: `tech_review_comments_${project}_${device}.pdf`,
+  //       image: { type: 'jpeg', quality: 0.98 },
+  //       html2canvas: { scale: 2 },
+  //       jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' },
+  //     })
+  //     .from(element)
+  //     .save();
+  // };
 
 
   const fetchComments = () => {
@@ -72,7 +72,7 @@ export default function CommentList({
 
     api
       .get('/comments', { params: { project, device } })
-      .then((res) => {
+      .then((res: { data: Comment[] }) => {
         setComments(res.data);
       })
       .catch(console.error);
