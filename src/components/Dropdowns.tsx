@@ -1,5 +1,5 @@
 import {
-  Grid,
+  Stack,
   FormControl,
   InputLabel,
   Select,
@@ -35,7 +35,8 @@ export default function Dropdowns({
   const [data, setData] = useState<WireframeDropdownData | null>(null);
 
   useEffect(() => {
-    api.get("/wireframe")
+    api
+      .get("/wireframe")
       .then((res: { data: WireframeDropdownData }) => setData(res.data))
       .catch(console.error);
   }, []);
@@ -43,124 +44,100 @@ export default function Dropdowns({
   if (!data) return <div>Loading...</div>;
 
   const projectOptions = data.projects;
-  const deviceOptions = selectedProject
-    ? data.devices_by_project[selectedProject] || []
-    : [];
+  const deviceOptions =
+    selectedProject ? data.devices_by_project[selectedProject] || [] : [];
   const pageOptions =
     selectedProject && selectedDevice
       ? data.pages_by_project_device[`${selectedProject}_${selectedDevice}`] || []
       : [];
 
+  const sharedSx = {
+    minWidth: 200,
+    maxWidth: 250,
+    fontSize: "0.85rem",
+    ".MuiSelect-select": {
+      paddingTop: "8px",
+      paddingBottom: "8px",
+    },
+  };
+
   return (
-    <Grid container spacing={3} mt={2} alignItems="center">
+    <Stack spacing={2} alignItems="flex-start">
       {/* Project Dropdown */}
-      <Grid>
-        <FormControl size="small" sx={{ minWidth: 150, maxWidth: 150 }}>
-          <InputLabel id="project-label">Project</InputLabel>
-          <Select
-            labelId="project-label"
-            id="project-select"
-            value={selectedProject}
-            label="Project"
-            sx={{
-              fontSize: "0.85rem",
-              lineHeight: "1.5", // Ensures text isn't vertically compressed
-              ".MuiSelect-select": {
-                paddingTop: "8px",
-                paddingBottom: "8px",
-                alignItems: "center",
-              }
-            }}
-            onChange={(e: SelectChangeEvent) => {
-              onProjectChange(e.target.value);
-              onDeviceChange("");
-              onPageChange("", "");
-            }}
-            displayEmpty
-          >
-            {projectOptions.map((p) => (
-              <MenuItem key={p} value={p} sx={{ fontSize: "0.85rem" }}>
-                {p}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
+      <FormControl size="small" sx={{ width: '100%', ...sharedSx }}>
+        <InputLabel id="project-label">Project</InputLabel>
+        <Select
+          labelId="project-label"
+          id="project-select"
+          value={selectedProject}
+          label="Project"
+          onChange={(e: SelectChangeEvent) => {
+            onProjectChange(e.target.value);
+            onDeviceChange("");
+            onPageChange("", "");
+          }}
+          displayEmpty
+        >
+          {projectOptions.map((p) => (
+            <MenuItem key={p} value={p} sx={{ fontSize: "0.85rem" }}>
+              {p}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
 
       {/* Device Dropdown */}
-      <Grid>
-        <FormControl
-          size="small"
-          sx={{ minWidth: 150, maxWidth: 150 }}
-          disabled={!selectedProject}
+      <FormControl
+        size="small"
+        sx={{ width: '100%', ...sharedSx }}
+        disabled={!selectedProject}
+      >
+        <InputLabel id="device-label">Device</InputLabel>
+        <Select
+          labelId="device-label"
+          id="device-select"
+          value={selectedDevice}
+          label="Device"
+          onChange={(e: SelectChangeEvent) => {
+            onDeviceChange(e.target.value);
+            onPageChange("", "");
+          }}
+          displayEmpty
         >
-          <InputLabel id="device-label">Device</InputLabel>
-          <Select
-            labelId="device-label"
-            id="device-select"
-            value={selectedDevice}
-            label="Device"
-            sx={{
-              fontSize: "0.85rem",
-              lineHeight: "1.5", // Ensures text isn't vertically compressed
-              ".MuiSelect-select": {
-                paddingTop: "8px",
-                paddingBottom: "8px",
-                alignItems: "center",
-              }
-            }}
-            onChange={(e: SelectChangeEvent) => {
-              onDeviceChange(e.target.value);
-              onPageChange("", "");
-            }}
-            displayEmpty
-          >
-            {deviceOptions.map((d) => (
-              <MenuItem key={d} value={d} sx={{ fontSize: "0.85rem" }}>
-                {d}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
+          {deviceOptions.map((d) => (
+            <MenuItem key={d} value={d} sx={{ fontSize: "0.85rem" }}>
+              {d}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
 
       {/* Page Dropdown */}
-      <Grid>
-        <FormControl
-          size="small"
-          sx={{ minWidth: 150, maxWidth: 150 }}
-          disabled={!selectedProject || !selectedDevice}
+      <FormControl
+        size="small"
+        sx={{ width: '100%', ...sharedSx }}
+        disabled={!selectedProject || !selectedDevice}
+      >
+        <InputLabel id="page-label">Page</InputLabel>
+        <Select
+          labelId="page-label"
+          id="page-select"
+          value={selectedPage}
+          label="Page"
+          onChange={(e: SelectChangeEvent) => {
+            const name = e.target.value;
+            const entry = pageOptions.find((p) => p.name === name);
+            onPageChange(name, entry?.path ?? "");
+          }}
+          displayEmpty
         >
-          <InputLabel id="page-label">Page</InputLabel>
-          <Select
-            labelId="page-label"
-            id="page-select"
-            value={selectedPage}
-            label="Page"
-            sx={{
-              fontSize: "0.85rem",
-              lineHeight: "1.5", // Ensures text isn't vertically compressed
-              ".MuiSelect-select": {
-                paddingTop: "8px",
-                paddingBottom: "8px",
-                alignItems: "center",
-              }
-            }}
-            onChange={(e: SelectChangeEvent) => {
-              const name = e.target.value;
-              const entry = pageOptions.find((p) => p.name === name);
-              onPageChange(name, entry?.path ?? "");
-            }}
-            displayEmpty
-          >
-            {pageOptions.map((p) => (
-              <MenuItem key={p.path} value={p.name} sx={{ fontSize: "0.85rem" }}>
-                {p.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-    </Grid>
+          {pageOptions.map((p) => (
+            <MenuItem key={p.path} value={p.name} sx={{ fontSize: "0.85rem" }}>
+              {p.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Stack>
   );
 }
