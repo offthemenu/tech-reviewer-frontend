@@ -27,7 +27,7 @@ export default function ReviewPage() {
   const triggerRefresh = () => setRefreshFlag((prev) => !prev);
 
   useEffect(() => {
-    api.get("/wireframe").then((res) => setData(res.data)).catch(console.error);
+    api.get("/wireframe").then((res: { data: WireframeDropdownData }) => setData(res.data)).catch(console.error);
   }, []);
 
   if (!data) return <div>Loading...</div>;

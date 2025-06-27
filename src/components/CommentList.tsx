@@ -10,7 +10,7 @@ import {
   Button,
   Box,
 } from '@mui/material';
-import html2pdf from 'html2pdf.js';
+// import html2pdf from 'html2pdf.js';
 import { useEffect, useState } from 'react';
 import api from '../services/api';
 

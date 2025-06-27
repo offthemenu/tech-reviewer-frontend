@@ -36,7 +36,7 @@ export default function Dropdowns({
 
   useEffect(() => {
     api.get("/wireframe")
-      .then((res) => setData(res.data))
+      .then((res: { data: WireframeDropdownData }) => setData(res.data))
       .catch(console.error);
   }, []);
 
