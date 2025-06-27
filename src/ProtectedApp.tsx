@@ -16,7 +16,7 @@ export default function ProtectedApp({ children }: { children: React.ReactNode }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", paddingTop: "20vh" }}>
-      <h2>🔒 Private Preview</h2>
+      <h2>🔒 Protected Sign-In</h2>
       <input
         type="password"
         placeholder="Enter password"
