@@ -47,13 +47,13 @@ export default function ReviewPage() {
       <Paper elevation={4} sx={{ p: 2 }}>
         <Grid container spacing={4} alignItems="flex-start">
           {/* PDF Components */}
-          <Grid size={{ xs: 15, md: 9 }}>
+          <Grid size={{ xs: 15, md: 8.5 }}>
             <Stack spacing={2} mb={3}>
               <PDFViewer filename={uploadedPdf} />
             </Stack>
           </Grid>
 
-          <Grid size={{ xs: 15, md: 3 }}>
+          <Grid size={{ xs: 15, md: 3.5 }}>
             <Stack spacing={3}>
               <Dropdowns
                 selectedProject={project}

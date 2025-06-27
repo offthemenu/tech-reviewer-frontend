@@ -57,7 +57,7 @@ export default function Dropdowns({
       <Grid>
         <FormControl
           size="small"
-          sx={{ minWidth: 100, maxWidth: 100 }}
+          sx={{ minWidth: 150, maxWidth: 150 }}
         >
           <InputLabel id="project-label" shrink>Project</InputLabel>
           <Select
@@ -91,7 +91,7 @@ export default function Dropdowns({
       <Grid>
         <FormControl
           size="small"
-          sx={{ minWidth: 100, maxWidth: 100 }}
+          sx={{ minWidth: 150, maxWidth: 150 }}
           disabled={!selectedProject}
         >
           <InputLabel id="device-label" shrink>Device</InputLabel>
@@ -125,7 +125,7 @@ export default function Dropdowns({
       <Grid>
         <FormControl
           size="small"
-          sx={{ minWidth: 100, maxWidth: 100 }}
+          sx={{ minWidth: 150, maxWidth: 150 }}
           disabled={!selectedProject || !selectedDevice}
         >
           <InputLabel id="page-label" shrink>Page</InputLabel>
