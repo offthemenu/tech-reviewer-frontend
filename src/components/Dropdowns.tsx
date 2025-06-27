@@ -35,8 +35,7 @@ export default function Dropdowns({
   const [data, setData] = useState<WireframeDropdownData | null>(null);
 
   useEffect(() => {
-    api
-      .get("/wireframe")
+    api.get("/wireframe")
       .then((res: { data: WireframeDropdownData }) => setData(res.data))
       .catch(console.error);
   }, []);
@@ -51,20 +50,18 @@ export default function Dropdowns({
       ? data.pages_by_project_device[`${selectedProject}_${selectedDevice}`] || []
       : [];
 
-  const sharedSx = {
-    minWidth: 200,
-    maxWidth: 250,
-    fontSize: "0.85rem",
-    ".MuiSelect-select": {
-      paddingTop: "8px",
-      paddingBottom: "8px",
+  const selectSx = {
+    width: '100%',
+    fontSize: '0.85rem',
+    '.MuiSelect-select': {
+      paddingTop: '8px',
+      paddingBottom: '8px',
     },
   };
 
   return (
-    <Stack spacing={2} alignItems="flex-start">
-      {/* Project Dropdown */}
-      <FormControl size="small" sx={{ width: '100%', ...sharedSx }}>
+    <Stack spacing={2} width="100%">
+      <FormControl size="small" sx={selectSx}>
         <InputLabel id="project-label">Project</InputLabel>
         <Select
           labelId="project-label"
@@ -79,19 +76,14 @@ export default function Dropdowns({
           displayEmpty
         >
           {projectOptions.map((p) => (
-            <MenuItem key={p} value={p} sx={{ fontSize: "0.85rem" }}>
+            <MenuItem key={p} value={p} sx={{ fontSize: '0.85rem' }}>
               {p}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
 
-      {/* Device Dropdown */}
-      <FormControl
-        size="small"
-        sx={{ width: '100%', ...sharedSx }}
-        disabled={!selectedProject}
-      >
+      <FormControl size="small" sx={selectSx} disabled={!selectedProject}>
         <InputLabel id="device-label">Device</InputLabel>
         <Select
           labelId="device-label"
@@ -105,19 +97,14 @@ export default function Dropdowns({
           displayEmpty
         >
           {deviceOptions.map((d) => (
-            <MenuItem key={d} value={d} sx={{ fontSize: "0.85rem" }}>
+            <MenuItem key={d} value={d} sx={{ fontSize: '0.85rem' }}>
               {d}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
 
-      {/* Page Dropdown */}
-      <FormControl
-        size="small"
-        sx={{ width: '100%', ...sharedSx }}
-        disabled={!selectedProject || !selectedDevice}
-      >
+      <FormControl size="small" sx={selectSx} disabled={!selectedDevice}>
         <InputLabel id="page-label">Page</InputLabel>
         <Select
           labelId="page-label"
@@ -132,7 +119,7 @@ export default function Dropdowns({
           displayEmpty
         >
           {pageOptions.map((p) => (
-            <MenuItem key={p.path} value={p.name} sx={{ fontSize: "0.85rem" }}>
+            <MenuItem key={p.path} value={p.name} sx={{ fontSize: '0.85rem' }}>
               {p.name}
             </MenuItem>
           ))}
