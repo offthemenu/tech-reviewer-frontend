@@ -1,4 +1,4 @@
-import { TextField, Stack, Button, Paper } from '@mui/material';
+import { TextField, Stack, Button } from '@mui/material';
 import { useState } from 'react';
 import api from '../services/api';
 
