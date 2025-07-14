@@ -1,4 +1,4 @@
-import { Box, Stack, TextField, Button, FormControl, InputLabel, Select, MenuItem, Divider } from "@mui/material";
+import { Stack, TextField, Button, FormControl, InputLabel, Select, MenuItem, Divider } from "@mui/material";
 import { useState } from "react";
 import api from "../services/api";
 
