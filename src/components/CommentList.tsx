@@ -18,6 +18,7 @@ type Comment = {
   id: number;
   project: string;
   device: string;
+  page_number?: number;
   ui_component: string;
   comment: string;
   created_at: string;
@@ -38,9 +39,9 @@ export default function CommentList({
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
   const handleCopyMarkdown = () => {
-    const header = `| Page Name | Page Path | UI Component | Comment |\n| --- | --- | --- | --- |\n`;
+    const header = `| Page # | Page Name | Page Path | UI Component | Comment |\n| --- | --- | --- | --- | --- |\n`;
     const rows = comments
-      .map(c => `| ${c.page_name} | ${c.page_path} | ${c.ui_component} | ${c.comment} |`)
+      .map(c => `| ${c.page_number ?? ''} | ${c.page_name} | ${c.page_path} | ${c.ui_component} | ${c.comment} |`)
       .join('\n');
     const markdown = header + rows;
 
@@ -109,6 +110,7 @@ export default function CommentList({
         <TableHead>
           <TableRow sx={{ backgroundColor: '#f3f4f6' }}>
             <TableCell padding="checkbox" />
+            <TableCell>Page Number</TableCell>
             <TableCell>Page Name</TableCell>
             <TableCell>Page Path</TableCell>
             <TableCell>UI Component</TableCell>
@@ -124,6 +126,7 @@ export default function CommentList({
                   onChange={() => toggle(c.id)}
                 />
               </TableCell>
+              <TableCell>{c.page_number ?? "—"}</TableCell>
               <TableCell>{c.page_name}</TableCell>
               <TableCell>{c.page_path}</TableCell>
               <TableCell>{c.ui_component}</TableCell>

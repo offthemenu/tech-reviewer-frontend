@@ -9,29 +9,39 @@ interface CommentFormProps {
     pageName: string;
     pagePath: string;
     filename: string;
+    pageNumber?: number;  // optional
   };
   onSuccess?: () => void;
 }
 
 export default function CommentForm({ context, onSuccess }: CommentFormProps) {
-  const { project, device, pageName, pagePath, filename } = context;
+  const { project, device, pageName, pagePath, filename, pageNumber } = context;
   const [uiComponent, setUiComponent] = useState('');
   const [text, setText] = useState('');
+  const [pageNumInput, setPageNumInput] = useState<string>(pageNumber?.toString() || '');
+
 
   const submit = async () => {
-    if (!text.trim()) return;
+    if (!text.trim() || !uiComponent.trim()) return;
+
+    const payload: any = {
+      project,
+      device,
+      page_name: pageName,
+      page_path: pagePath,
+      ui_component: uiComponent.toUpperCase(),
+      comment: text,
+      filename,
+    };
+    if (pageNumInput.trim()) {
+      payload.page_number = Number(pageNumInput);
+    }
+
     try {
-      await api.post('/add_comment', {
-        project,
-        device,
-        page_name: pageName,
-        page_path: pagePath,
-        ui_component: uiComponent.toUpperCase(),
-        comment: text,
-        filename,
-      });
+      await api.post('/add_comment', payload);
       setText('');
       setUiComponent('');
+      setPageNumInput('');
       onSuccess?.();
     } catch (err) {
       console.error("Failed to submit comment", err);
@@ -40,6 +50,19 @@ export default function CommentForm({ context, onSuccess }: CommentFormProps) {
 
   return (
       <Stack spacing={2}>
+        <TextField
+          label="Page Number (optional)"
+          type="number"
+          inputProps={{ min: 1 }}
+          value={pageNumInput}
+          onKeyDown={(e) => {
+            if (['e', '+', '-'].includes(e.key)) e.preventDefault();
+          }}
+          onChange={(e) => setPageNumInput(e.target.value)}
+          size="small"
+          fullWidth
+        />
+
         <TextField
           label="UI Component"
           placeholder="e.g. 1 - BUTTON, 2 - TEXT"

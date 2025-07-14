@@ -1,11 +1,10 @@
-import { Stack, Box, Typography, Paper, Grid } from "@mui/material";
+import { Stack, Box, Typography, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import PDFUpload from "../components/PDFUpload";
 import PDFViewer from "../components/PDFViewer";
-import CommentForm from "../components/CommentForm";
+import CombinedForm from "../components/CombinedForm";
 import CommentList from "../components/CommentList";
-import Dropdowns from "../components/Dropdowns";
 
 type WireframeDropdownData = {
   projects: string[];
@@ -23,16 +22,15 @@ export default function ReviewPage() {
   const [pagePath, setPagePath] = useState("");
 
   const [refreshFlag, setRefreshFlag] = useState(false);
-  const triggerRefresh = () => setRefreshFlag((prev) => !prev);
+  const triggerRefresh = () => setRefreshFlag(prev => !prev);
 
   useEffect(() => {
-    api
-      .get("/wireframe")
+    api.get("/wireframe")
       .then((res: { data: WireframeDropdownData }) => setData(res.data))
       .catch(console.error);
   }, []);
 
-  if (!data) return <div>Loading...</div>;
+  if (!data) return <div>Loading…</div>;
 
   return (
     <Box
@@ -46,65 +44,46 @@ export default function ReviewPage() {
         gap: 3,
       }}
     >
-      {/* Page Title */}
-      <Typography variant="h4" fontWeight={600} mb={2}>
+      {/* Title */}
+      <Typography variant="h4" fontWeight={600}>
         wA FE Wireframe Technical Reviewer
       </Typography>
 
-      {/* PDF Upload Box */}
+      {/* PDF Upload */}
       <Stack spacing={3}>
-        <PDFUpload onUpload={(filename) => setUploadedPdf(filename)} />
+        <PDFUpload onUpload={filename => setUploadedPdf(filename)} />
       </Stack>
 
-      {/* Main Content Block */}
-      <Paper elevation={3} sx={{ p: 3 }}>
-        <Grid container spacing={3} alignItems="flex-start">
-          {/* Left Column: PDF Viewer */}
-          <Grid size={ {xs:12, md:10} }>
-            <PDFViewer filename={uploadedPdf} />
-          </Grid>
+      {/* Viewer + Combined Form */}
+      <Paper elevation={3} sx={{ p: 3, display: "flex", flexDirection: "column", gap: 3 }}>
+        {/* PDF Viewer */}
+        <Box>
+          <PDFViewer filename={uploadedPdf} />
+        </Box>
 
-          {/* Right Column: Dropdowns + Comment Form */}
-          <Grid size={ {xs:12, md:2 }}>
-            <Stack spacing={3}>
-              <Dropdowns
-                selectedProject={project}
-                selectedDevice={device}
-                selectedPage={pageName}
-                onProjectChange={(p) => {
-                  setProject(p);
-                  setDevice("");
-                  setPageName("");
-                  setPagePath("");
-                }}
-                onDeviceChange={(d) => {
-                  setDevice(d);
-                  setPageName("");
-                  setPagePath("");
-                }}
-                onPageChange={(name, path) => {
-                  setPageName(name);
-                  setPagePath(path);
-                }}
-              />
-              {project && device && pageName && uploadedPdf && (
-                <CommentForm
-                  context={{
-                    project,
-                    device,
-                    pageName,
-                    pagePath,
-                    filename: uploadedPdf,
-                  }}
-                  onSuccess={triggerRefresh}
-                />
-              )}
-            </Stack>
-          </Grid>
-        </Grid>
+        {/* Combined Dropdowns + Comment Form */}
+        {uploadedPdf && (
+          <CombinedForm
+            wireframes={data}
+            context={{
+              project,
+              device,
+              pageName,
+              pagePath,
+              filename: uploadedPdf,
+            }}
+            setContext={({ project: p, device: d, pageName: pn, pagePath: pp }) => {
+              setProject(p);
+              setDevice(d);
+              setPageName(pn);
+              setPagePath(pp);
+            }}
+            onSuccess={triggerRefresh}
+          />
+        )}
       </Paper>
 
-      {/* Comment Table */}
+      {/* Comment List */}
       <CommentList
         project={project}
         device={device}
