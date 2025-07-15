@@ -72,7 +72,7 @@ export default function CommentList({
   };
 
   const handleCopyMarkdown = () => {
-    const header = `| Page # | Page Name | Page Path | UI Component | Comment |\n| --- | --- | --- | --- | --- |\n`;
+    const header = `| Page No. | Page Name | Page Path | UI Component | Comment |\n| --- | --- | --- | --- | --- |\n`;
     const rows = comments
       .map(c => `| ${c.page_number ?? ''} | ${c.page_name} | ${c.page_path} | ${c.ui_component} | ${c.comment} |`)
       .join('\n');
